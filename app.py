@@ -1,13 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 from flask_mysqldb import MySQL
 import db
+import json
 
 app = Flask(__name__)
 app.secret_key = "super secret key"
 
 
 app.config['MYSQL_HOST'] = ''
-app.config['MYSQL_PORT'] = ''
+app.config['MYSQL_PORT'] = 1
 app.config['MYSQL_USER'] = 'ospite'
 app.config['MYSQL_PASSWORD'] = 'ospite'
 app.config['MYSQL_DB'] = 'w3schools'
@@ -49,4 +50,8 @@ def orders():
 def details(id):
     return render_template("orders.html",orders=db.details(id),titolo="Details",extra = "for customerID "+id)
        
+@app.route("/api/orders/")
+def api_orders():
+    return db.api_allOrders(mysql)
+
 app.run(debug=True)
